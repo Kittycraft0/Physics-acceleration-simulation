@@ -15,7 +15,7 @@ var settings={
   //for example if a direction is held down for one second then the
   //acceleration is changed by this many units?
   //it seems that the default must be 100
-  speed:100,
+  speed:1000,
   //speed:10000,
   cameraSpeed:10000,
 
@@ -146,9 +146,13 @@ var settings={
 
   //blacklisted object names such that these objects dont get
   //the gravity
-  gravityBlackList:{
-    "box1":1
-  },
+  //why didn't i just use a list of strings...? oh yeah... 
+  //the for each loop or whatever... but still...
+  gravityBlackListOriginal:[
+    "box1",
+    "ballPositionGraph","ballVelocityGraph","ballAccelerationGraph"
+  ],
+  gravityBlackList:{},
 };
 
 //spf (seconds per frame)
@@ -158,6 +162,10 @@ if(!settings.uncapFPS){
 }else{
   settings.spf=0;
   settings.mspf=0;
+}
+
+for(var i=0;i<settings.gravityBlackListOriginal.length;i++){
+  settings.gravityBlackList[settings.gravityBlackListOriginal[i]]=1;
 }
 
 //animated lines while loop spf set

@@ -145,8 +145,26 @@ data.objects["ball1"]=new WallBouncingOrb(
 );
 
 
-data.objects["testGraph"]=new Graph(
+data.objects["ballPositionGraph"]=new Graph(
   0,150,
+  0,0,
+  1000,100,
+  [],
+  0.001,
+  "black","lime","red"
+);
+
+data.objects["ballVelocityGraph"]=new Graph(
+  0,300,
+  0,0,
+  1000,100,
+  [],
+  0.1,
+  "black","lime","red"
+);
+
+data.objects["ballAccelerationGraph"]=new Graph(
+  0,450,
   0,0,
   1000,100,
   [],

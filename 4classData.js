@@ -1275,7 +1275,7 @@ function getColor(x){
 
 //ctx.line(2,3,4,5,6);
 
-console.log("4 classData loaded!");
+//console.log("4 classData loaded!");
 
 //don't just copy this over as I will create this all over YET AGAIN!?...
 //no i just copied this one over...
@@ -1656,14 +1656,15 @@ class Graph extends Rectangle{
     x,y,xv,yv,
     width,height,
     data,
-    multiplier,
+    dataHeightMultiplier,
     backgroundColor,dataColor,midlineColor
   ){
     super(x,y,xv,yv,width,height,backgroundColor);
     this.data=data?data:[-1,-0.5,0.5,0,1];
     this.dataColor=dataColor?dataColor:"white";
     this.midlineColor=midlineColor?midlineColor:"red";
-    this.multiplier=multiplier?multiplier:1;
+    this.dataHeightMultiplier=
+      dataHeightMultiplier?dataHeightMultiplier:1;
   }
   render(backgroundFilled){
     var filled=backgroundFilled?backgroundFilled:true;
@@ -1712,19 +1713,19 @@ class Graph extends Rectangle{
     //graph the stats
     //it is given to be in the range of -1 to 1 or something after
     //multiplication by the multiplier
-    var multiplier=this.mulitplier;
-    //console.log(multiplier);
+    var dataHeightMultiplier=this.dataHeightMultiplier;
+    //console.log(dataHeightMultiplier);
     ctx.beginPath();
     ctx.moveTo(
       pos.x-trueWidth/2,
-      pos.y-(trueHeight/2)*this.data[0]*multiplier
+      pos.y-(trueHeight/2)*this.data[0]*dataHeightMultiplier
     );
     for(var i=0;i<this.data.length;i++){
       //percent from the left to the right
       var completionPercent=i/(this.data.length-1);
       ctx.lineTo(
         pos.x-trueWidth/2+(trueWidth*completionPercent),
-        pos.y-(trueHeight/2)*this.data[i]*multiplier
+        pos.y-(trueHeight/2)*this.data[i]*dataHeightMultiplier
       );
       //console.log(pos.x-trueWidth/2+(trueWidth*completionPercent),
       //  pos.y-(trueHeight/2)*this.data[i]

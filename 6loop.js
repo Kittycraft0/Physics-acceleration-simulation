@@ -165,8 +165,20 @@ for(var i=0;i<objectKeys.length;i++){
   //data.objects["testGraph"].data[
   //  data.objects["testGraph"].data.length
   //]=data.objects["ball1"].vel[0];
-  data.objects["testGraph"].addData(data.objects["ball1"].vel[0]);
-  data.objects["testGraph"].cutData(1000);
+  
+  data.objects["ballPositionGraph"].addData(
+    data.objects["ball1"].pos[0]);
+  data.objects["ballPositionGraph"].cutData(1000);
+  
+  data.objects["ballVelocityGraph"].addData(
+    data.objects["ball1"].vel[0]);
+  data.objects["ballVelocityGraph"].cutData(1000);
+  
+  
+  data.objects["ballAccelerationGraph"].addData(
+    data.objects["ball1"].vel[0]);
+  data.objects["ballAccelerationGraph"].cutData(1000);
+  
   //center the camera on the blue square?
   //data.camera.pos[0]=Math.cos(n/10)*100;
   //data.camera.pos[1]=Math.sin(n/10)*100;

@@ -18,7 +18,7 @@ var settings={
   speed:1000,
   //speed:10000,
   cameraSpeed:10000,
-
+  //.
   //Player force (how much the other things are attracted to it)
   //it seems that the default must be 0.2
   //funny things seem to happen when it is 0 

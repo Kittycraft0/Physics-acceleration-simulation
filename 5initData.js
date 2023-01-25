@@ -145,6 +145,16 @@ data.objects["ball1"]=new WallBouncingOrb(
 );
 
 
+data.objects["testGraph"]=new Graph(
+  0,150,
+  0,0,
+  1000,100,
+  [],
+  0.1,
+  "black","lime","red"
+);
+
+
 
 //console.log("FPS: "+settings.fps);
 

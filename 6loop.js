@@ -117,7 +117,7 @@ for(var i=0;i<objectKeys.length;i++){
   }
   //console.log(data.camera.vel[0]);
   data.camera.updatePosition();
-  zoomControls();
+  //zoomControls();
   
   //return value from the loop if it is ever needed or required
   var loopReturnValue=false;
@@ -151,16 +151,28 @@ for(var i=0;i<objectKeys.length;i++){
       data.objects[i].attractBoth(data.objects[j]);
     }
   }
+
+  //console.log(data.objects);
+  //player ball stuffs
+  data.objects["ball1"].getControlsFromKeyboard();
+  data.objects["ball1"].move();
+  //console.log(data.objects["ball1"].up);
+  //data.objects["ball1"].vel[0]+=-.1;
+  
   for(var name in data.objects){
     //data.objects[name].updatePositionByVelocity();
   }
-  
+  //data.objects["testGraph"].data[
+  //  data.objects["testGraph"].data.length
+  //]=data.objects["ball1"].vel[0];
+  data.objects["testGraph"].addData(data.objects["ball1"].vel[0]);
+  data.objects["testGraph"].cutData(1000);
   //center the camera on the blue square?
   //data.camera.pos[0]=Math.cos(n/10)*100;
   //data.camera.pos[1]=Math.sin(n/10)*100;
   //data.camera.scale=Math.sin(n/10);
   
-  //render the balls
+  //render the balls and objects and stuffs
   for(var name in data.objects){
     var theObject=data.objects[name];
     //console.log(name);

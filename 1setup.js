@@ -27,6 +27,15 @@ canvas.style=`
   background-color:#00000022;`;
 document.body.appendChild(canvas);
 
+//great -1/24/2022 12:16 PM CST Tuesday
+document.body.style=`
+  overflow-y: hidden; /* Hide vertical scrollbar */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  height: 100%;
+  width: 100%;
+  /*background-color:#000000;*/
+`;
+
 //const canvas=document.getElementById("canvas");
 const ctx=canvas.getContext("2d");
 

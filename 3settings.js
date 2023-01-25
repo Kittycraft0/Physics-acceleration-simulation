@@ -15,7 +15,7 @@ var settings={
   //for example if a direction is held down for one second then the
   //acceleration is changed by this many units?
   //it seems that the default must be 100
-  speed:0.001,
+  speed:100,
   //speed:10000,
   cameraSpeed:10000,
 

@@ -311,7 +311,58 @@ class PhysicsObject{
       )
     );
   }
+
   
+  //have this thing be a thing of its own to maybe even allow
+  //computer things in the future
+  getControlsFromKeyboard(){
+    //check keys
+    this.up=
+      keyPressed('w')||keyPressed('W')||keyPressed("ArrowUp");
+    this.down=
+      keyPressed('s')||keyPressed('S')||keyPressed("ArrowDown");
+    this.right=
+      keyPressed('d')||keyPressed('D')||keyPressed("ArrowRight");
+    this.left=
+      keyPressed('a')||keyPressed('A')||keyPressed("ArrowLeft");
+    //console.log(this.left);
+  }
+  move(){
+    //if velocity is used
+    //change the velocity
+    if(this.up){this.vel[1]-=(settings.speed/settings.fps)/settings.fps;}
+    if(this.down){this.vel[1]+=(settings.speed/settings.fps)/settings.fps;}
+    if(this.right){this.vel[0]+=(settings.speed/settings.fps)/settings.fps;}
+    if(this.left){this.vel[0]-=(settings.speed/settings.fps)/settings.fps;}
+    //console.log(this.left);
+  }
+  //move
+  moveToCoordinates(mx,my){
+    //vector this to mouse (what it was originally made for)
+    //the word "target" here in this context would be kind of
+    //confusing so maybe the word "mouse" is better since that is
+    //one instance this is made for
+    //so anyways the vector of this to mouse:
+    var vector=[mx-this.pos[0],my-this.pos[1]];
+    var magnitude=Math.sqrt(vector[0]**2+vector[1]**2);
+    //unit vector
+    var normalized=[vector[0]/magnitude,vector[1]/magnitude];
+    //change the velocity
+    this.vel[0]+=normalized[0]*settings.speed/(settings.fps*settings.fps);
+    this.vel[1]+=normalized[1]*settings.speed/(settings.fps*settings.fps);
+  }
+  //move with the mouse
+  moveWithMouse(){
+    this.moveToCoordinates(mouse.x,mouse.y);
+  }
+  
+  decay(){
+    //decay the velocity over time
+    //if(settings.useDampeners){
+    plr.vel[0]*=settings.decay;
+    plr.vel[1]*=settings.decay;
+    //}
+  }
 }
 
 
@@ -566,6 +617,59 @@ class BallPhysics extends Ball{
     this.vel[0]=xv;
     this.vel[1]=yv;
   }
+
+  
+  //have this thing be a thing of its own to maybe even allow
+  //computer things in the future
+  getControlsFromKeyboard(){
+    //check keys
+    this.up=
+      keyPressed('w')||keyPressed('W')||keyPressed("ArrowUp");
+    this.down=
+      keyPressed('s')||keyPressed('S')||keyPressed("ArrowDown");
+    this.right=
+      keyPressed('d')||keyPressed('D')||keyPressed("ArrowRight");
+    this.left=
+      keyPressed('a')||keyPressed('A')||keyPressed("ArrowLeft");
+    //console.log(this.left);
+  }
+  move(){
+    //if velocity is used
+    //change the velocity
+    if(this.up){this.vel[1]-=(settings.speed/settings.fps)/settings.fps;}
+    if(this.down){this.vel[1]+=(settings.speed/settings.fps)/settings.fps;}
+    if(this.right){this.vel[0]+=(settings.speed/settings.fps)/settings.fps;}
+    if(this.left){this.vel[0]-=(settings.speed/settings.fps)/settings.fps;}
+    //console.log(this.left);
+  }
+  //move
+  moveToCoordinates(mx,my){
+    //vector this to mouse (what it was originally made for)
+    //the word "target" here in this context would be kind of
+    //confusing so maybe the word "mouse" is better since that is
+    //one instance this is made for
+    //so anyways the vector of this to mouse:
+    var vector=[mx-this.pos[0],my-this.pos[1]];
+    var magnitude=Math.sqrt(vector[0]**2+vector[1]**2);
+    //unit vector
+    var normalized=[vector[0]/magnitude,vector[1]/magnitude];
+    //change the velocity
+    this.vel[0]+=normalized[0]*settings.speed/(settings.fps*settings.fps);
+    this.vel[1]+=normalized[1]*settings.speed/(settings.fps*settings.fps);
+  }
+  //move with the mouse
+  moveWithMouse(){
+    this.moveToCoordinates(mouse.x,mouse.y);
+  }
+  
+  decay(){
+    //decay the velocity over time
+    //if(settings.useDampeners){
+    plr.vel[0]*=settings.decay;
+    plr.vel[1]*=settings.decay;
+    //}
+  }
+  
   /*
   wallBounce(){
     if(this.pos[0]<=-canvasWidth/2+this.size){
@@ -1547,12 +1651,125 @@ class Rectangle extends PhysicsObject{
   */
 }
 
+class Graph extends Rectangle{
+  constructor(
+    x,y,xv,yv,
+    width,height,
+    data,
+    multiplier,
+    backgroundColor,dataColor,midlineColor
+  ){
+    super(x,y,xv,yv,width,height,backgroundColor);
+    this.data=data?data:[-1,-0.5,0.5,0,1];
+    this.dataColor=dataColor?dataColor:"white";
+    this.midlineColor=midlineColor?midlineColor:"red";
+    this.multiplier=multiplier?multiplier:1;
+  }
+  render(backgroundFilled){
+    var filled=backgroundFilled?backgroundFilled:true;
+    //if(filled){
+    //  this.renderFilled();
+    //}else{
+    //  this.renderOutline();
+    //}
+
+    var cameraObject=
+      arguments[0]?arguments[0]:(data.camera?data.camera:{});
+    var pos=
+      cameraObject.getCoords(this.pos[0],this.pos[1]);
+    var trueWidth=cameraObject.getSize(this.width);
+    var trueHeight=cameraObject.getSize(this.height);
+    //console.log(pos);
+    //console.log(this.size);
+    
+    //var coords=this.getSideCoordinates();
+    var cx=data.camera.pos[0]?data.camera.pos[0]:0;
+    var cy=data.camera.pos[1]?data.camera.pos[1]:0;
+    var topX=(this.pos[0]-this.width/2)-cx;
+    var topY=(this.pos[1]-this.height/2)-cy;
+    //var topX=data.camera.scale*(this.pos[0]-this.width/2)-cx;
+    //var topY=data.camera.scale*(this.pos[1]-this.height/2)-cy;
+    //console.log(topX,topY);
+    ctx.fillStyle=this.color;
+    ctx.beginPath();
+    ctx.rect(
+      //topX,topY,
+      //topX*trueWidth/2,topY*trueHeight/2,
+      //pos.x,pos.y,
+      pos.x-trueWidth/2,pos.y-trueHeight/2,
+      //data.camera.scale*this.width,
+      //data.camera.scale*this.height
+      trueWidth,//*this.width,
+      trueHeight//*this.height
+    );
+    //console.log(pos.size);
+    if(filled){
+      ctx.fill();
+    }else{
+      ctx.stroke();
+    }
+    
+    //graph the stats
+    //it is given to be in the range of -1 to 1 or something after
+    //multiplication by the multiplier
+    var multiplier=this.mulitplier;
+    //console.log(multiplier);
+    ctx.beginPath();
+    ctx.moveTo(
+      pos.x-trueWidth/2,
+      pos.y-(trueHeight/2)*this.data[0]*multiplier
+    );
+    for(var i=0;i<this.data.length;i++){
+      //percent from the left to the right
+      var completionPercent=i/(this.data.length-1);
+      ctx.lineTo(
+        pos.x-trueWidth/2+(trueWidth*completionPercent),
+        pos.y-(trueHeight/2)*this.data[i]*multiplier
+      );
+      //console.log(pos.x-trueWidth/2+(trueWidth*completionPercent),
+      //  pos.y-(trueHeight/2)*this.data[i]
+      //);
+      
+    }
+    ctx.strokeStyle=this.dataColor;
+    //ctx.closePath();
+    ctx.stroke();
+  }
+  //thanks new statistics class for this vocab!
+  addData(datum){
+    this.data[this.data.length]=datum;
+  }
+  //amount is a number depicting how many data points 
+  //should be left; if there is less than the amount, nothing is done
+  //end is a boolean depicting whether the end side is kept (true), 
+  //or the start side is kept (false)
+  cutData(amount,end){
+    end=end?end:true;
+    //if it needs cutting
+    if(this.data.length>=amount){
+      //then cut it
+      var newDataList=[];
+      if(!end){
+        for(var i=0;i<amount;i++){
+          newDataList[i]=this.data[i];
+        }
+      }else{
+        var indexShift=this.data.length-amount;
+        for(var i=0;i<amount;i++){
+          newDataList[i]=this.data[i+indexShift];
+        }
+      }
+      this.data=newDataList;
+    }
+  }
+}
 
 
 
 var testRect=new Rectangle(10,10,5,5,30,30,"orange");
 testRect.render();
 
+var testGraph=new Graph(20,20,1,1,50,50,"lime");
 
 
 //console.log("FPS: "+settings.fps);
